@@ -28,8 +28,10 @@ SECRET_KEY =\
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-CSRF_TRUSTED_ORIGINS = []
+#set the ALLOWED_HOSTS and CSRF_TRUSTED_ORIGINS to reflect your Django app's root URL.
+#para fines aprendizaje se quedó con la misma url, pero ya en ambiente real debe ser otra url en "ALLOWED_HOSTS y CSRF_TRUSTED_ORIGINS"
+ALLOWED_HOSTS=['localhost','127.0.0.1']
+CSRF_TRUSTED_ORIGINS=['http://127.0.0.1']
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
@@ -58,10 +60,15 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'djangoproj.urls'
 
-TEMPLATES = [
+TEMPLATES = [#Indica a Django dónde buscar archivos de plantillas HTML.
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [#(anexos para el proyecto)Add the os.path.join(BASE_DIR,'frontend/static') to the list for the Django application to recognize the front-end static files
+            os.path.join(BASE_DIR,'frontend/build'), #porqué va este aquí? se supone que este apartado es para templates
+            os.path.join(BASE_DIR,'frontend/static'), #porqué va este aquí? se supone que este apartado es para templates
+            os.path.join(BASE_DIR,'frontend/templates'),
+            
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -134,5 +141,9 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATICFILES_DIRS = []
+STATICFILES_DIRS = [#Indica a Django dónde buscar archivos estáticos (CSS, JS, imágenes) en desarrollo.
+    os.path.join(BASE_DIR, 'frontend/static'),
+    os.path.join(BASE_DIR,'frontend/build'),
+    os.path.join(BASE_DIR,'frontend/build/static'),
+]
 
