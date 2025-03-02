@@ -6,4 +6,5 @@ from .models import CarMake, CarModel
 admin.site.register(CarMake)
 admin.site.register(CarModel)
 
-#register the CarMake and CarModel on the admin site so you can conveniently manage their content
+# register the CarMake and CarModel on the admin site 
+# so you can conveniently manage their content
