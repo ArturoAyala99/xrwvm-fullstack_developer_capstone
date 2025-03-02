@@ -1,10 +1,6 @@
 # Uncomment the required imports before adding the code
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import logout
-from django.contrib import messages
 from datetime import datetime
 
 from django.http import JsonResponse
@@ -39,12 +35,14 @@ def login_user(request):
         data = {"userName": username, "status": "Authenticated"}
     return JsonResponse(data)
 
+
 # Create a `logout_request` view to handle sign out request
 def logout_request(request):
     logout(request)
     data = {"userName":""}
     return JsonResponse(data)
 # ...
+
 
 # Create a `registration` view to handle sign up request
 @csrf_exempt
@@ -74,7 +72,8 @@ def registration(request):
     else:
         dato = {"userName":data['userName'],"error":"Already Registered"}
         return JsonResponse(dato)
-    
+
+
 def get_cars(request):
     count = CarMake.objects.filter().count()
     print(count)
@@ -89,7 +88,8 @@ def get_cars(request):
     
     return JsonResponse({"CarModels": cars})
 
-#Update the `get_dealerships` render list of dealerships all by default, particular state if state is passed
+
+# Update the `get_dealerships` render list of dealerships all by default, particular state if state is passed
 def get_dealerships(request, state="All"):
     if(state == "All"):
         endpoint = "/fetchDealers"
@@ -100,8 +100,12 @@ def get_dealerships(request, state="All"):
 
 '''
 takes the dealer_id as a parameter in views.py 
-and add a mapping urls.py. It will use the get_request you implemented in the restapis.py passing the /fetchDealer/<dealer id> endpoint.
+and add a mapping urls.py. 
+It will use the get_request you implemented in the restapis.py 
+passing the /fetchDealer/<dealer id> endpoint.
 '''
+
+
 def get_dealer_details(request, dealer_id):
     if(dealer_id):
         endpoint = "/fetchDealer/"+str(dealer_id)
@@ -112,9 +116,14 @@ def get_dealer_details(request, dealer_id):
 
 '''
 takes the dealer_id as a parameter in views.py and add a mapping urls.py. 
-It will use the get_request you implemented in the restapis.py passing the /fetchReviews/dealer/<dealer id> endpoint. 
-It will also call analyze_review_sentiments in restapis.py to consume the microservice and determine the sentiment of each of the reviews and set the value in the review_detail dictonary which is returned as a JsonResponse.
+It will use the get_request you implemented 
+in the restapis.py passing the /fetchReviews/dealer/<dealer id> endpoint. 
+It will also call analyze_review_sentiments in restapis.py to consume the 
+microservice and determine the sentiment of each of the reviews and set the value 
+in the review_detail dictonary which is returned as a JsonResponse.
 '''
+
+
 def get_dealer_reviews(request, dealer_id):
     # if dealer id has been provided
     if(dealer_id):
@@ -129,12 +138,16 @@ def get_dealer_reviews(request, dealer_id):
         return JsonResponse({"status":400,"message":"Bad Request"})
 
 '''
-First check if user is authenticated because only authenticated users can post reviews for a dealer.
+First check if user is authenticated because only 
+authenticated users can post reviews for a dealer.
 Call the post_request method with the dictionary
-Return the result of post_request to add_review view method. You may print the post response
+Return the result of post_request to add_review view method. 
+You may print the post response
 Return a success status and message as JSON
 Configure the route for add_review view in url.py.
 '''
+
+
 def add_review(request):
     if(request.user.is_anonymous == False):
         data = json.loads(request.body)
