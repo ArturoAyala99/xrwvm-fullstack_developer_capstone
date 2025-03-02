@@ -1,8 +1,6 @@
 # Uncomment the required imports before adding the code
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
-from datetime import datetime
-
 from django.http import JsonResponse
 from django.contrib.auth import login, authenticate
 import logging
@@ -39,7 +37,7 @@ def login_user(request):
 # Create a `logout_request` view to handle sign out request
 def logout_request(request):
     logout(request)
-    data = {"userName":""}
+    data = {"userName": ""}
     return JsonResponse(data)
 # ...
 
@@ -47,7 +45,6 @@ def logout_request(request):
 # Create a `registration` view to handle sign up request
 @csrf_exempt
 def registration(request):
-    context = {}
     data = json.loads(request.body)
     username_exist = False
 
@@ -55,22 +52,27 @@ def registration(request):
         # Check if user already exists
         User.objects.get(username=data['userName'])
         username_exist = True
-    except:
+    except Exception:
         # If not, simply log this is a new user
         logger.debug("{} is new user".format(data['userName']))
 
     # If it is a new user
     if not username_exist:
         # Create user in auth_user table
-        user = User.objects.create(username=data['userName'], first_name=data['firstName'], last_name=data['lastName'], password=data['password'], email=data['email'])
+        user = User.objects.create(username=data['userName'],
+                first_name=data['firstName'],
+                last_name=data['lastName'],
+                password=data['password'], email=data['email'])
 
         # Login the user and redirect to list page
         login(request, user)
 
-        dato = {"userName":data['userName'],"status":"Authenticated"}
+        dato = {"userName": data['userName'],
+                "status": "Authenticated"}
         return JsonResponse(dato)
     else:
-        dato = {"userName":data['userName'],"error":"Already Registered"}
+        dato = {"userName": data['userName'],
+                "error": "Already Registered"}
         return JsonResponse(dato)
 
 
@@ -84,7 +86,8 @@ def get_cars(request):
     car_models = CarModel.objects.select_related('car_make')
     cars = []
     for car_model in car_models:
-        cars.append({"CarModel": car_model.Name, "CarMake": car_model.car_make.Name})
+        cars.append({"CarModel": car_model.Name,
+            "CarMake": car_model.car_make.Name})
     
     return JsonResponse({"CarModels": cars})
 
@@ -94,9 +97,9 @@ def get_dealerships(request, state="All"):
     if(state == "All"):
         endpoint = "/fetchDealers"
     else:
-        endpoint = "/fetchDealers/"+state
+        endpoint = "/fetchDealers/" + state
     dealerships = get_request(endpoint)
-    return JsonResponse({"status":200,"dealers":dealerships})
+    return JsonResponse({"status": 200, "dealers": dealerships})
 
 '''
 takes the dealer_id as a parameter in views.py 
@@ -108,9 +111,9 @@ passing the /fetchDealer/<dealer id> endpoint.
 
 def get_dealer_details(request, dealer_id):
     if(dealer_id):
-        endpoint = "/fetchDealer/"+str(dealer_id)
+        endpoint = "/fetchDealer/" + str(dealer_id)
         dealership = get_request(endpoint)
-        return JsonResponse({"status":200,"dealer":dealership})
+        return JsonResponse({"status": 200, "dealer": dealership})
     else:
         return JsonResponse({"status":400,"message":"Bad Request"})
 
@@ -127,15 +130,15 @@ in the review_detail dictonary which is returned as a JsonResponse.
 def get_dealer_reviews(request, dealer_id):
     # if dealer id has been provided
     if(dealer_id):
-        endpoint = "/fetchReviews/dealer/"+str(dealer_id)
+        endpoint = "/fetchReviews/dealer/" + str(dealer_id)
         reviews = get_request(endpoint)
         for review_detail in reviews:
             response = analyze_review_sentiments(review_detail['review'])
             print(response)
             review_detail['sentiment'] = response['sentiment']
-        return JsonResponse({"status":200,"reviews":reviews})
+        return JsonResponse({"status": 200, "reviews": reviews})
     else:
-        return JsonResponse({"status":400,"message":"Bad Request"})
+        return JsonResponse({"status": 400, "message": "Bad Request"})
 
 '''
 First check if user is authenticated because only 
@@ -153,8 +156,8 @@ def add_review(request):
         data = json.loads(request.body)
         try:
             response = post_review(data)
-            return JsonResponse({"status":200})
+            return JsonResponse({"status": 200})
         except:
-            return JsonResponse({"status":401,"message":"Error in posting review"})
+            return JsonResponse({"status": 401, "message": "Error in posting review"})
     else:
-        return JsonResponse({"status":403,"message":"Unauthorized"})
+        return JsonResponse({"status":403, "message": "Unauthorized"})
