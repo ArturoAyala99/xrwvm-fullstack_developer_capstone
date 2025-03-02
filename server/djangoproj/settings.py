@@ -51,6 +51,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'djangoproj.urls'
 
+
 TEMPLATES = [ # Indica a Django dónde buscar archivos de plantillas HTML.
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -60,7 +61,6 @@ TEMPLATES = [ # Indica a Django dónde buscar archivos de plantillas HTML.
             # se supone que este apartado es para templates
             os.path.join(BASE_DIR, 'frontend/static'),
             os.path.join(BASE_DIR, 'frontend/templates'),
-            
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -88,10 +88,9 @@ DATABASES = {
 }
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME':
-        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
+    {'NAME':
+'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+},
     {
         'NAME':
         'django.contrib.auth.password_validation.MinimumLengthValidator',
@@ -135,9 +134,10 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_DIRS = [
-    # Indica a Django dónde buscar archivos estáticos (CSS, JS, imágenes) en desarrollo.
+    # Indica a Django dónde buscar archivos estáticos 
+    # (CSS, JS, imágenes) en desarrollo.
     os.path.join(BASE_DIR, 'frontend/static'),
-    os.path.join(BASE_DIR,'frontend/build'),
-    os.path.join(BASE_DIR,'frontend/build/static'),
+    os.path.join(BASE_DIR, 'frontend/build'),
+    os.path.join(BASE_DIR, 'frontend/build/static'),
 ]
 
