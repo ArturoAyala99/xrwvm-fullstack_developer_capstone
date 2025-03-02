@@ -28,8 +28,11 @@ SECRET_KEY =\
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#set the ALLOWED_HOSTS and CSRF_TRUSTED_ORIGINS to reflect your Django app's root URL.
-#para fines aprendizaje se quedó con la misma url, pero ya en ambiente real debe ser otra url en "ALLOWED_HOSTS y CSRF_TRUSTED_ORIGINS"
+#set the ALLOWED_HOSTS and CSRF_TRUSTED_ORIGINS 
+#to reflect your Django app's root URL.
+#para fines aprendizaje se quedó con la misma url, 
+#pero ya en ambiente real debe ser otra url en
+#"ALLOWED_HOSTS y CSRF_TRUSTED_ORIGINS"
 ALLOWED_HOSTS=['localhost','127.0.0.1']
 CSRF_TRUSTED_ORIGINS=['http://127.0.0.1']
 
@@ -63,9 +66,10 @@ ROOT_URLCONF = 'djangoproj.urls'
 TEMPLATES = [#Indica a Django dónde buscar archivos de plantillas HTML.
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [#(anexos para el proyecto)Add the os.path.join(BASE_DIR,'frontend/static') to the list for the Django application to recognize the front-end static files
-            os.path.join(BASE_DIR,'frontend/build'), #porqué va este aquí? se supone que este apartado es para templates
-            os.path.join(BASE_DIR,'frontend/static'), #porqué va este aquí? se supone que este apartado es para templates
+        'DIRS': [#(anexos para el proyecto)Add the os.path.join(BASE_DIR,'frontend/static') 
+            #to the list for the Django application to recognize the front-end static files
+            os.path.join(BASE_DIR,'frontend/build'), #se supone que este apartado es para templates
+            os.path.join(BASE_DIR,'frontend/static'), #se supone que este apartado es para templates
             os.path.join(BASE_DIR,'frontend/templates'),
             
         ],
